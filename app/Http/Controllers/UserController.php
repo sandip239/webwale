@@ -9,28 +9,13 @@ class UserController extends Controller
 {
     public function BlogView()
     {
-        $topSection = Blog::select('id', 'title', 'image', 'updated_at')
-            ->orderBy('created_at', 'desc')
-            ->limit(6)
-            ->get();
-        $randomBlogs = Blog::select('id', 'title', 'image', 'updated_at')
-            ->inRandomOrder()
-            ->limit(2)
-            ->get();
-        $randomBlogsthree = Blog::select('id', 'title', 'image', 'content', 'updated_at')
-            ->inRandomOrder()
-            ->limit(3)
-            ->get();
-        $randomBlogsnine = Blog::select('id', 'title', 'image', 'content', 'updated_at')
-            ->inRandomOrder()
-            ->limit(9)
-            ->get();
-        $lastFourBlogs = Blog::select('id', 'title', 'image', 'content', 'updated_at')
-            ->orderBy('updated_at', 'desc') // Order by updated_at in descending order
-            ->limit(4) // Limit to the last 4 entries
-            ->get();
-
-        return view('user.index', compact('topSection', 'randomBlogs', 'randomBlogsthree', 'randomBlogsnine','lastFourBlogs'));
+        $topSection = Blog::getDifferentData(6, 'created_at');
+        $randomBlogs = Blog::getDifferentData(2, 'id');
+        $randomBlogsthree = Blog::getDifferentData(3, 'id');
+        $randomBlogsnine = Blog::getDifferentData(9, 'id');
+        $lastFourBlogs = Blog::getDifferentData(4, 'updated_at');
+    
+        return view('user.index', compact('topSection', 'randomBlogs', 'randomBlogsthree', 'randomBlogsnine', 'lastFourBlogs'));
     }
 
     public function index($id)

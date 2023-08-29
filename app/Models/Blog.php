@@ -16,4 +16,14 @@ class Blog extends Model
         'image', // And other fields you might have
     ];
     protected $table='blog_new_post';
+
+    public static function getDifferentData($limit, $orderBy)
+    {
+        return Blog::select('id', 'title','content','image', 'updated_at')
+            ->orderBy($orderBy, 'desc')
+            ->limit($limit)
+            ->get();
+    }
+
+
 }
